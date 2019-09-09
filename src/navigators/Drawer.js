@@ -4,6 +4,7 @@ import { Dimensions } from "react-native";
 
 import Drawer from "../drawer";
 import HomeScreen from "../homeScreen";
+import colors from "../theme";
 
 const DrawerNavigator = createDrawerNavigator(
   {

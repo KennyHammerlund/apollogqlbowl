@@ -1,6 +1,6 @@
 import EStyleSheet from "react-native-extended-stylesheet";
 
-const blue = "#0F6995";
+const blue = "#0061AA";
 const red = "#ee3a43";
 const softWhite = "#f9f9f9";
 const black = "#4c5667";
@@ -24,7 +24,8 @@ EStyleSheet.build({
   $lightGrey: lightGrey,
   $text: softWhite,
   $subTitle: "#333",
-  $error: red
+  $error: red,
+  $muted: muted
 });
 
 export default {
