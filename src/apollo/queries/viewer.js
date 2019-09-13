@@ -1,11 +1,12 @@
 import gql from "graphql-tag";
 
 export default gql`
-  query getGame {
-    game {
+  query getViewer {
+    viewer {
       id
-      delay
       name
+      delay
+      optimistic
       actions {
         id
         type

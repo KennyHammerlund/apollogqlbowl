@@ -5,7 +5,7 @@ import { withSettingsContext } from "../../contexts/SettingsContext";
 import Scoreboard from "./Scoreboard";
 import AddScore from "./AddScore";
 
-const User = ({ settings }) => {
+const User = ({}) => {
   return (
     <View style={styles.container}>
       <Scoreboard />

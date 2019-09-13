@@ -13,11 +13,20 @@ const actions = {
 };
 
 export default ({ item }) => {
-  const time = moment(item.timestamp).format("hh:mm:ss");
+  const time = moment.unix(item.timeStamp).format("hh:mm:ss");
   return (
     <View style={styles.row}>
       <H3 style={styles.time}>{`${time} - `}</H3>
-      <H3 style={styles.action}>{`${actions[item.type]}`}</H3>
+
+      {item.optimistic ? (
+        <H3 style={[styles.action, styles.optimistic]}>{`${
+          actions[item.type]
+        }`}</H3>
+      ) : (
+        <H3 style={[styles.action, styles.server]}>{`${
+          actions[item.type]
+        }`}</H3>
+      )}
     </View>
   );
 };
@@ -36,7 +45,12 @@ const styles = EStyleSheet.create({
   },
   action: {
     fontSize: "$large",
-    color: "$primary",
     fontWeight: "500"
+  },
+  optimistic: {
+    color: "$primary"
+  },
+  server: {
+    color: "$red"
   }
 });

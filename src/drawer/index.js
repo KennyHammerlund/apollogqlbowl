@@ -1,23 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
   Text,
-  Image,
   Dimensions,
   ActivityIndicator
 } from "react-native";
-import {
-  Container,
-  Content,
-  Item,
-  Input,
-  Icon,
-  Button,
-  Picker
-} from "native-base";
+import { Container, Content, Item, Input, Icon, Picker } from "native-base";
+import { useQuery } from "@apollo/react-hooks";
+
+import ResetButton from "./resetButton";
+import ConfirmSettings from "./ConfirmSettings";
 import colors from "../theme";
-import { withSettingsContext } from "../contexts/SettingsContext";
+
+import QUERY from "../apollo/queries/viewer";
 
 const fibNum = {
   0: 1,
@@ -32,115 +28,117 @@ const fibNum = {
   9: 89
 };
 
-const Drawer = ({ navigation, settings }) => {
-  const [delay, setDelay] = useState(settings.delay);
-  const [email, setEmail] = useState(settings.email);
-  const [buttonState, setButtonState] = useState();
+const Drawer = ({ navigation }) => {
+  const { data, loading, error } = useQuery(QUERY);
+  const [delay, setDelay] = useState(data && data.viewer && data.viewer.delay);
+  const [email, setEmail] = useState(data && data.viewer && data.viewer.name);
+  const [errorMessage, setError] = useState();
+  useEffect(() => {
+    if (data && data.viewer) {
+      setEmail(data.viewer.name);
+      setDelay(data.viewer.delay);
+    }
+  }, [data, loading]);
 
-  const onUpdateSettings = () => {
-    setButtonState("LOADING");
-    setButtonState(null);
-    const optimistic = false;
-    settings.updateSettings(email, delay, optimistic);
-    navigation.toggleDrawer();
-  };
+  if (loading)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color="#0061aa" size="large" />
+      </View>
+    );
 
-  const onDelete = () => {
-    setEmail(null);
-    setDelay(null);
-    settings.resetSettings();
-  };
   return (
     <View style={styles.container}>
-      <Image source={require("../../assets/home.jpg")} style={styles.image} />
-
-      {settings.loaded ? (
-        <Container style={{ width: "90%" }}>
-          <Content>
+      <Container style={{ width: "90%" }}>
+        <Content>
+          <Text
+            style={{
+              fontWeight: "700",
+              color: colors.primary,
+              fontSize: 32,
+              marginTop: 25,
+              textAlign: "right"
+            }}
+          >
+            Apollo GQL Bowl
+          </Text>
+          <Text
+            style={{
+              fontWeight: "700",
+              color: colors.primary,
+              fontSize: 22,
+              marginBottom: 25,
+              textAlign: "right"
+            }}
+          >
+            Player Settings
+          </Text>
+          {errorMessage && (
             <Text
               style={{
-                fontWeight: "700",
-                color: colors.primary,
-                fontSize: 22,
-                marginVertical: 25
+                fontWeight: "500",
+                color: colors.red,
+                fontSize: 16,
+                marginBottom: 5
               }}
             >
-              Player Settings
+              {errorMessage}
             </Text>
-            <Item>
-              <Icon active name="md-mail" />
-              <Input
-                placeholder="email"
-                placeholderTextColor={colors.muted}
-                onChangeText={t => setEmail(t)}
-                value={email}
-              />
-            </Item>
-            <Item picker>
-              <Text style={{ fontWeight: "500" }}>Delay: </Text>
-              <Picker
-                mode="dropdown"
-                iosIcon={<Icon name="arrow-down" />}
-                style={{ width: "80%" }}
-                placeholder="Server delay"
-                placeholderStyle={{ color: colors.muted }}
-                placeholderIconColor="#007aff"
-                selectedValue={delay}
-                onValueChange={v => setDelay(v)}
-              >
-                {Array.apply(null, Array(10)).map((k, i) => {
-                  return (
-                    <Picker.Item
-                      label={`${fibNum[i]} Second${i === 0 ? "" : "s"}`}
-                      value={fibNum[i]}
-                      key={`${i}-s`}
-                    />
-                  );
-                })}
-              </Picker>
-            </Item>
-            <Button
-              onPress={() => onUpdateSettings()}
-              block
-              style={{ backgroundColor: colors.primary, marginTop: 20 }}
-              disabled={buttonState === "LOADING"}
-            >
-              <Text style={{ fontWeight: "500", color: colors.softWhite }}>
-                {buttonState === "LOADING"
-                  ? "Updating. ."
-                  : buttonState === "COMPLETE"
-                  ? "Update Complete"
-                  : "Confirm settings"}
-              </Text>
-            </Button>
-            <Button
-              onPress={() => onDelete()}
-              block
-              style={{
-                backgroundColor: colors.red,
-                borderColor: colors.red,
-                marginTop: 20
+          )}
+          <Item>
+            <Icon active name="md-mail" />
+            <Input
+              placeholder="email"
+              placeholderTextColor={colors.muted}
+              onChangeText={t => setEmail(t)}
+              value={email}
+            />
+          </Item>
+          <Item picker style={{ borderColor: "#333", borderWidth: 1 }}>
+            <Text style={{ fontWeight: "500" }}>Delay: </Text>
+            <Picker
+              mode="dropdown"
+              iosIcon={<Icon name="arrow-down" />}
+              contentContainerStyle={{ flex: 1 }}
+              headerStyle={{
+                backgroundColor: colors.primary
               }}
+              headerTitleStyle={{
+                color: colors.primary
+              }}
+              placeholder="Server delay"
+              placeholderStyle={{ color: colors.muted }}
+              placeholderIconColor="#007aff"
+              selectedValue={delay}
+              onValueChange={v => setDelay(v)}
             >
-              <Text style={{ fontWeight: "500", color: colors.softWhite }}>
-                Clear settings
-              </Text>
-            </Button>
-          </Content>
-        </Container>
-      ) : (
-        <View style={styles.container}>
-          <ActivityIndicator color="#0061aa" size="large" />
-        </View>
-      )}
+              {Array.apply(null, Array(10)).map((k, i) => {
+                return (
+                  <Picker.Item
+                    label={`${fibNum[i]} Second${i === 0 ? "" : "s"}`}
+                    value={fibNum[i]}
+                    key={`${i}-s`}
+                  />
+                );
+              })}
+            </Picker>
+          </Item>
+          <ConfirmSettings
+            payload={{ name: email, delay }}
+            setError={setError}
+          />
+          <ResetButton />
+        </Content>
+      </Container>
     </View>
   );
 };
 
-export default withSettingsContext(Drawer);
+export default Drawer;
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     flex: 1,
     backgroundColor: colors.softWhite,
     alignItems: "center",

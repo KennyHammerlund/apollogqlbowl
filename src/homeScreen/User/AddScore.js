@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Button } from "native-base";
-import AddTouchdown from "./AddTouchdown";
+import AddTouchdown from "./AddTouchdown/AddTouchdown";
 
 const AddScore = ({}) => {
   return (

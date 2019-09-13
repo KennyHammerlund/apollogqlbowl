@@ -4,34 +4,50 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import { Icon } from "native-base";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { useQuery } from "@apollo/react-hooks";
 
 import colors from "../theme";
 import User from "./User/User";
 import NoUser from "./NoUser";
-import { withSettingsContext } from "../contexts/SettingsContext";
-import { isIphoneX } from "react-native-iphone-x-helper";
 
-const Home = ({ navigation, settings }) => {
+import QUERY from "../apollo/queries/viewer";
+
+const Home = ({ navigation }) => {
+  const { data, loading, error } = useQuery(QUERY);
+  console.log(`*--data`, data);
   return (
     <SafeAreaView>
-      <Image source={require("../../assets/home.jpg")} style={styles.image} />
+      <Image
+        source={require("../../assets/gqlbowl.png")}
+        style={styles.image}
+      />
       <Icon
         active
         name="md-settings"
         style={styles.icon}
         onPress={() => navigation.toggleDrawer()}
       />
-      <View style={styles.container}>
-        {!settings.user ? <NoUser /> : <User />}
-      </View>
+
+      {loading && (
+        <View style={styles.container}>
+          <ActivityIndicator color="#0061aa" size="large" />
+        </View>
+      )}
+      {!loading && (
+        <View style={styles.container}>
+          {data.viewer && data.viewer.name ? <User /> : <NoUser />}
+        </View>
+      )}
     </SafeAreaView>
   );
 };
 
-export default withSettingsContext(Home);
+export default Home;
 
 const styles = StyleSheet.create({
   container: {

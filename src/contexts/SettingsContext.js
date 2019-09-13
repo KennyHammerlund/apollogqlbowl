@@ -1,10 +1,6 @@
 import React from "react";
 import { setEmail as setStorageEmail, deleteEmail } from "../utils/storage";
-import { graphql } from "react-apollo";
 import { ActivityIndicator } from "react-native";
-
-import MUTATION from "./setDelay";
-import QUERY from "../homeScreen/User/getGame";
 
 // prettier-ignore
 export const SettingsContext = React.createContext({});
@@ -31,19 +27,10 @@ class BaseProvider extends React.Component {
   };
 
   render() {
-    const { data } = this.props;
-    if (data.loading) {
-      return <ActivityIndicator color="#0061aa" />;
-    }
-
-    const { game } = data || {};
     const injectableProps = {
       updateSettings: this.updateSettings,
       resetSettings: this.resetSettings,
-      email: game.name,
-      delay: game.delay,
-      optimistic: this.state.optimistic,
-      loaded: !this.props.data.loading
+      optimistic: this.state.optimistic
     };
 
     return (
@@ -53,7 +40,7 @@ class BaseProvider extends React.Component {
     );
   }
 }
-const Provider = graphql(QUERY)(BaseProvider);
+const Provider = BaseProvider;
 
 export const withSettingsContext = Component => props => {
   return (
