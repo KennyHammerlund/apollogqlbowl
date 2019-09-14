@@ -2,6 +2,8 @@ import React from "react";
 import { Button, Text } from "native-base";
 import { useMutation } from "@apollo/react-hooks";
 import { withNavigation } from "react-navigation";
+import DismissKeyboard from "dismissKeyboard";
+
 import colors from "../theme";
 import SET_VIEWER from "../apollo/queries/setViewer";
 
@@ -23,6 +25,7 @@ const ResetButton = ({ payload, navigation, setError }) => {
     setViewer()
       .then(() => {
         setError(null);
+        DismissKeyboard();
 
         navigation.toggleDrawer();
       })

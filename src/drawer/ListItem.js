@@ -5,14 +5,15 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import moment from "moment";
 
 const actions = {
-  FIELD_GOAL: "FG",
-  TOUCHDOWN: "TD",
+  FIELD_GOAL: "Field Goal",
+  TOUCHDOWN: "Touchdown",
   SAFTEY: "ST",
   EXTRA_POINT: "EP",
   CONVERSION: "2PC"
 };
 
 export default ({ item }) => {
+  console.log(`*--item`, item);
   const time = moment.unix(item.timeStamp).format("hh:mm:ss");
   return (
     <View style={styles.row}>
@@ -37,8 +38,8 @@ const styles = EStyleSheet.create({
     borderWidth: 1,
     marginTop: -1,
     borderColor: "$lightGrey",
-    padding: 5, 
-    backgroundColor: '$white'
+    padding: 5,
+    backgroundColor: "$white"
   },
   time: {
     fontSize: "$medium",

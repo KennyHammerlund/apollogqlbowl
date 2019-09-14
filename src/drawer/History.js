@@ -18,6 +18,7 @@ export default ({}) => {
       <FlatList
         data={actions.reverse()}
         style={{ paddingTop: 5, flex: -1, flexGrow: 0 }}
+        keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => <ListItem item={item} />}
       />
     </View>
