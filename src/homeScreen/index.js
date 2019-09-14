@@ -15,7 +15,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../theme";
 import User from "./User/User";
 import NoUser from "./NoUser";
-
+import GQLBOWL from "../../assets/gqlbowl.png";
 import QUERY from "../apollo/queries/viewer";
 
 const Home = ({ navigation }) => {
@@ -23,10 +23,7 @@ const Home = ({ navigation }) => {
   console.log(`*--data`, data);
   return (
     <SafeAreaView>
-      <Image
-        source={require("../../assets/gqlbowl.png")}
-        style={styles.image}
-      />
+      <Image source={GQLBOWL} style={styles.image} />
       <Icon
         active
         name="md-settings"

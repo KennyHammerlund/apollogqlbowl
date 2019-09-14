@@ -13,7 +13,6 @@ const actions = {
 };
 
 export default ({ item }) => {
-  console.log(`*--item`, item);
   const time = moment.unix(item.timeStamp).format("hh:mm:ss");
   return (
     <View style={styles.row}>

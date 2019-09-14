@@ -13,6 +13,7 @@ import { StyleProvider } from "native-base";
 import material from "./native-base-theme/variables/material";
 import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "./src/apollo/apollo";
+import { registerRootComponent } from "expo";
 
 class AppContainer extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class AppContainer extends React.Component {
   }
 }
 
-export default () => (
+const App = () => (
   <ApolloProvider client={ApolloClient}>
     <View style={{ backgroundColor: colors.softWhite, flex: 1 }}>
       <StyleProvider style={getTheme(material)}>
@@ -52,3 +53,6 @@ export default () => (
     </View>
   </ApolloProvider>
 );
+
+export default App;
+registerRootComponent(App);

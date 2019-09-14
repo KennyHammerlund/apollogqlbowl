@@ -2,6 +2,7 @@
   "expo": {
     "name": "Apollo GQL Bowl",
     "slug": "gqlbowl",
+    "description": "Project to demonstrate how React-Apollos Optimistic UI works",
     "privacy": "public",
     "sdkVersion": "34.0.0",
     "platforms": ["ios", "android", "web"],

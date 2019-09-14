@@ -4,13 +4,11 @@ import { Icon, Text, Container, Content, Button } from "native-base";
 import { withSettingsContext } from "../../contexts/SettingsContext";
 import Scoreboard from "./Scoreboard";
 import AddScore from "./AddScore";
+import Field from "../../../assets/sbField.png";
 
 const User = ({}) => {
   return (
-    <ImageBackground
-      source={require("../../../assets/sbField.png")}
-      style={styles.imageBackground}
-    >
+    <ImageBackground source={Field} style={styles.imageBackground}>
       <View style={styles.container}>
         <View style={[styles.halfScreen, { paddingLeft: 10, paddingRight: 5 }]}>
           <Scoreboard ui />
