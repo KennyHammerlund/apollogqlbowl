@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export default gql`
-  mutation addTouchDown($input: GameActionInput) {
+  mutation addFieldGoal($input: GameActionInput) {
     addGameAction(input: $input) {
       id
       type

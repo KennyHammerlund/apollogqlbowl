@@ -31,7 +31,8 @@ EStyleSheet.build({
   $subTitle: "#333",
   $error: red,
   $red: red,
-  $muted: muted
+  $muted: muted,
+  $black: black
 });
 
 export default {

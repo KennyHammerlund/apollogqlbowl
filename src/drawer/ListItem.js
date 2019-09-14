@@ -5,11 +5,11 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import moment from "moment";
 
 const actions = {
-  FIELD_GOAL: "Field Goal",
-  TOUCHDOWN: "Touchdown",
-  SAFTEY: "Saftey",
-  EXTRA_POINT: "Extra Point",
-  CONVERSION: "2 Point Conversion"
+  FIELD_GOAL: "FG",
+  TOUCHDOWN: "TD",
+  SAFTEY: "ST",
+  EXTRA_POINT: "EP",
+  CONVERSION: "2PC"
 };
 
 export default ({ item }) => {
@@ -37,7 +37,8 @@ const styles = EStyleSheet.create({
     borderWidth: 1,
     marginTop: -1,
     borderColor: "$lightGrey",
-    padding: 5
+    padding: 5, 
+    backgroundColor: '$white'
   },
   time: {
     fontSize: "$medium",

@@ -10,6 +10,7 @@ import {
 import { Icon } from "native-base";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { useQuery } from "@apollo/react-hooks";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 import colors from "../theme";
 import User from "./User/User";
@@ -49,12 +50,11 @@ const Home = ({ navigation }) => {
 
 export default Home;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     height: "70%",
-    paddingTop: 20,
     paddingBottom: isIphoneX ? 65 : 20,
-    paddingHorizontal: 10
+    backgroundColor: "#000"
   },
   image: {
     height: Dimensions.get("screen").height * 0.3,

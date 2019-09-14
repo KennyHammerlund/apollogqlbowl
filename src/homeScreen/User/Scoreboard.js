@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { View, FlatList, ActivityIndicator } from "react-native";
-import { Text, H2 } from "native-base";
+import React, { useEffect } from "react";
+import { View, ActivityIndicator } from "react-native";
+import { Text } from "native-base";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { graphql } from "react-apollo";
 
 import colors from "../../theme";
-import QUERY from "../../apollo/queries/viewer";
+import GET_VIEWER from "../../apollo/queries/viewer";
 
-import ListItem from "./ListItem";
-
-const Scoreboard = ({ data }) => {
-  const [refreshing, setRefreshing] = useState(false);
+const Scoreboard = ({ data, ui }) => {
+  // if we used a react Component class it would auto update but because we are
+  // using a function we need to watch the data prop for changes and rerender
   useEffect(() => {}, [data]);
+
   if (data && data.loading)
     return <ActivityIndicator size="large" color="#0061aa" />;
 
@@ -20,14 +20,10 @@ const Scoreboard = ({ data }) => {
 
   const score =
     actions && actions.length > 0
-      ? actions
-          .map(o => (o.optimistic ? 0 : o.value))
-          .reduce((acc, item) => acc + item)
-      : 0;
-  const uiScore =
-    actions && actions.length > 0
       ? actions.map(o => o.value).reduce((acc, item) => acc + item)
       : 0;
+  const optimisticLoading =
+    !ui && actions && actions.length > 0 && actions.some(act => act.optimistic);
   return (
     <>
       <View style={styles.container}>
@@ -39,34 +35,31 @@ const Scoreboard = ({ data }) => {
             alignItems: "center"
           }}
         >
-          <View style={[styles.scoreBox, styles.serverBox]}>
-            <Text style={styles.title}>Server</Text>
-            <Text style={styles.score}>{score}</Text>
-          </View>
-          <View style={[styles.scoreBox, styles.uiBox]}>
-            <Text style={styles.title}>UI</Text>
-            <Text style={styles.score}>{uiScore}</Text>
-          </View>
+          {!ui ? (
+            <View style={[styles.scoreBox, styles.serverBox]}>
+              {optimisticLoading ? (
+                <ActivityIndicator color={colors.softWhite} />
+              ) : (
+                <>
+                  <Text style={styles.title}>SERVER</Text>
+                  <Text style={styles.score}>{score}</Text>
+                </>
+              )}
+            </View>
+          ) : (
+            <View style={[styles.scoreBox, styles.uiBox]}>
+              <Text style={styles.title}>UI</Text>
+              <Text style={styles.score}>{score}</Text>
+            </View>
+          )}
         </View>
       </View>
-      <View style={{ flex: 1 }}>
-        <H2 style={styles.header}>Score History</H2>
-        <FlatList
-          data={actions.reverse()}
-          style={{ paddingTop: 5, flex: -1, flexGrow: 0 }}
-          renderItem={({ item }) => <ListItem item={item} />}
-          onRefresh={() => {
-            setRefreshing(true);
-            data.refetch().then(() => setRefreshing(false));
-          }}
-          refreshing={refreshing}
-        />
-      </View>
+      <View style={{ flex: 1 }}></View>
     </>
   );
 };
 
-export default graphql(QUERY)(Scoreboard);
+export default graphql(GET_VIEWER)(Scoreboard);
 
 const styles = EStyleSheet.create({
   container: {
@@ -75,8 +68,18 @@ const styles = EStyleSheet.create({
   scoreBox: {
     justifyContent: "center",
     alignItems: "center",
-    width: 80,
-    height: 80
+    width: 100,
+    height: 100,
+    marginTop: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
+    elevation: 8
   },
   serverBox: {
     backgroundColor: "$red"
@@ -87,17 +90,11 @@ const styles = EStyleSheet.create({
   score: {
     color: colors.softWhite,
     fontWeight: "900",
-    fontSize: 32
+    fontSize: 38
   },
   title: {
     color: colors.softWhite,
     fontWeight: "700",
-    fontSize: 18
-  },
-  header: {
-    color: "$primary",
-    fontSize: "$large",
-    fontWeight: "700",
-    marginTop: 20
+    fontSize: 22
   }
 });
