@@ -16,7 +16,6 @@ const httpLink = createHttpLink({ uri });
 
 const withEmail = setContext(async request => {
   const email = await AsyncStorage.getItem("email");
-  console.log(`*--email`, email, Constants.installationId);
   return {
     headers: {
       user: email,

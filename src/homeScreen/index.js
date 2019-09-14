@@ -20,7 +20,6 @@ import QUERY from "../apollo/queries/viewer";
 
 const Home = ({ navigation }) => {
   const { data, loading, error } = useQuery(QUERY);
-  console.log(`*--data`, data);
   return (
     <SafeAreaView>
       <Image source={GQLBOWL} style={styles.image} />

@@ -1,7 +1,6 @@
 import React from "react";
 import { View, ImageBackground, StyleSheet } from "react-native";
 import { Icon, Text, Container, Content, Button } from "native-base";
-import { withSettingsContext } from "../../contexts/SettingsContext";
 import Scoreboard from "./Scoreboard";
 import AddScore from "./AddScore";
 import Field from "../../../assets/sbField.png";
@@ -22,7 +21,7 @@ const User = ({}) => {
   );
 };
 
-export default withSettingsContext(User);
+export default User;
 
 const styles = StyleSheet.create({
   container: {

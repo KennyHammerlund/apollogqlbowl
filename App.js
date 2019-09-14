@@ -7,7 +7,6 @@ import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import StatusBar from "./src/components/StatusBar";
 import colors from "./src/theme";
-import SettingsContext from "./src/contexts/SettingsContext";
 import getTheme from "./native-base-theme/components";
 import { StyleProvider } from "native-base";
 import material from "./native-base-theme/variables/material";
@@ -45,14 +44,14 @@ const App = () => (
   <ApolloProvider client={ApolloClient}>
     <View style={{ backgroundColor: colors.softWhite, flex: 1 }}>
       <StyleProvider style={getTheme(material)}>
-        <SettingsContext.Provider>
+        <>
           <StatusBar />
           <AppContainer />
-        </SettingsContext.Provider>
+        </>
       </StyleProvider>
     </View>
   </ApolloProvider>
 );
 
-export default App;
+// export default App;
 registerRootComponent(App);
