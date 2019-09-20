@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { FlatList, View } from "react-native";
 import { H2 } from "native-base";
 import { useQuery } from "@apollo/react-hooks";
@@ -9,6 +9,7 @@ import GET_VIEWER from "../apollo/queries/viewer";
 
 export default ({}) => {
   const { data, loading, error } = useQuery(GET_VIEWER);
+  useEffect(()=>{},[data, loading]) // rerenders component on data change from apollo
   if (loading) return <></>;
   const { viewer } = data || {};
   const { actions } = viewer || {};
