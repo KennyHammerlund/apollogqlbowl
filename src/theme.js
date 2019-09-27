@@ -30,6 +30,7 @@ EStyleSheet.build({
   $text: softWhite,
   $subTitle: "#333",
   $error: red,
+  $errorBackground: "#ee3a4333",
   $red: red,
   $muted: muted,
   $black: black

@@ -15,17 +15,28 @@ const actions = {
 export default ({ item }) => {
   const time = moment.unix(item.timeStamp).format("hh:mm:ss");
   return (
-    <View style={styles.row}>
+    <View
+      style={item.optimistic ? [styles.row, styles.optimisticRow] : styles.row}
+    >
       <H3 style={styles.time}>{`${time} - `}</H3>
 
       {item.optimistic ? (
-        <H3 style={[styles.action, styles.optimistic]}>{`${
-          actions[item.type]
-        }`}</H3>
+        <View
+          style={{
+            justifyContent: "space-between",
+            flex: 1,
+            flexDirection: "row"
+          }}
+        >
+          <H3 style={[styles.action, styles.optimistic]}>{`${actions[
+            item.type
+          ].toUpperCase()}`}</H3>
+          <Text>Optimistic</Text>
+        </View>
       ) : (
-        <H3 style={[styles.action, styles.server]}>{`${
-          actions[item.type]
-        }`}</H3>
+        <H3 style={[styles.action, styles.server]}>{`${actions[
+          item.type
+        ].toUpperCase()}`}</H3>
       )}
     </View>
   );
@@ -36,7 +47,7 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     borderWidth: 1,
     marginTop: -1,
-    borderColor: "$lightGrey",
+    borderColor: "$muted",
     padding: 5,
     backgroundColor: "$white"
   },
@@ -49,9 +60,12 @@ const styles = EStyleSheet.create({
     fontWeight: "500"
   },
   optimistic: {
-    color: "$primary"
+    color: "$black"
+  },
+  optimisticRow: {
+    backgroundColor: "$errorBackground"
   },
   server: {
-    color: "$red"
+    color: "$primary"
   }
 });

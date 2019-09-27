@@ -2,12 +2,11 @@ import React from "react";
 import {
   SafeAreaView,
   View,
-  StyleSheet,
   Dimensions,
   Image,
   ActivityIndicator
 } from "react-native";
-import { Icon } from "native-base";
+import { Icon, Button } from "native-base";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { useQuery } from "@apollo/react-hooks";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -15,21 +14,20 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../theme";
 import User from "./User/User";
 import NoUser from "./NoUser";
-import GQLBOWL from "../../assets/gqlbowl.png";
+import { withImageContext } from "../contexts/imageContext";
 import QUERY from "../apollo/queries/viewer";
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, image }) => {
   const { data, loading, error } = useQuery(QUERY);
   return (
     <SafeAreaView>
-      <Image source={GQLBOWL} style={styles.image} />
+      <Image source={image.image} style={styles.image} />
       <Icon
         active
         name="md-settings"
         style={styles.icon}
         onPress={() => navigation.toggleDrawer()}
       />
-
       {loading && (
         <View style={styles.container}>
           <ActivityIndicator color="#0061aa" size="large" />
@@ -44,7 +42,7 @@ const Home = ({ navigation }) => {
   );
 };
 
-export default Home;
+export default withImageContext(Home);
 
 const styles = EStyleSheet.create({
   container: {

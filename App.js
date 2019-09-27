@@ -13,6 +13,7 @@ import material from "./native-base-theme/variables/material";
 import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "./src/apollo/apollo";
 import { registerRootComponent } from "expo";
+import ImageContext from "./src/contexts/imageContext";
 
 class AppContainer extends React.Component {
   constructor(props) {
@@ -44,10 +45,12 @@ const App = () => (
   <ApolloProvider client={ApolloClient}>
     <View style={{ backgroundColor: colors.softWhite, flex: 1 }}>
       <StyleProvider style={getTheme(material)}>
-        <>
-          <StatusBar />
-          <AppContainer />
-        </>
+        <ImageContext.Provider>
+          <>
+            <StatusBar />
+            <AppContainer />
+          </>
+        </ImageContext.Provider>
       </StyleProvider>
     </View>
   </ApolloProvider>

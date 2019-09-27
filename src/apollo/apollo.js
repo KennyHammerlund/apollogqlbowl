@@ -11,7 +11,6 @@ import { onError } from "apollo-link-error";
 import Constants from "expo-constants";
 
 let uri = "https://sg-summit-api.herokuapp.com/graphql";
-
 const httpLink = createHttpLink({ uri });
 
 const withEmail = setContext(async request => {
