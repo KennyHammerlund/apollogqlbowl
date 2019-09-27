@@ -14,6 +14,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "./src/apollo/apollo";
 import { registerRootComponent } from "expo";
 import ImageContext from "./src/contexts/imageContext";
+import TouchdownContext from "./src/contexts/touchdownContext";
 
 class AppContainer extends React.Component {
   constructor(props) {
@@ -46,10 +47,12 @@ const App = () => (
     <View style={{ backgroundColor: colors.softWhite, flex: 1 }}>
       <StyleProvider style={getTheme(material)}>
         <ImageContext.Provider>
-          <>
-            <StatusBar />
-            <AppContainer />
-          </>
+          <TouchdownContext.Provider>
+            <>
+              <StatusBar />
+              <AppContainer />
+            </>
+          </TouchdownContext.Provider>
         </ImageContext.Provider>
       </StyleProvider>
     </View>

@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { Text, Button } from "native-base";
 import { useMutation } from "@apollo/react-hooks";
 import moment from "moment";
-import ApolloClient from "../../../apollo/apollo";
 import { withImageContext } from "../../../contexts/imageContext";
+import { withTouchdownContext } from "../../../contexts/touchdownContext";
 
 import MUTATION from "./scoreMutation";
 import GET_VIEWER from "../../../apollo/queries/viewer";
 
-const AddFieldGoal = ({ props, image }) => {
+const AddFieldGoal = ({ props, image, touchdown }) => {
   const [addTouchdown, { loading }] = useMutation(MUTATION, {
     optimisticResponse: ({ input }) => {
       // mock up the object we expect to return
@@ -63,13 +63,22 @@ const AddFieldGoal = ({ props, image }) => {
       }
     }
   });
+  // watch the loading var to update component
   useEffect(() => {}, [loading]);
 
   return (
     <Button
       onPress={() => {
         image.changePhoto("blockedKick");
-        addTouchdown();
+        addTouchdown().then(() => {
+          // when server returns add to toast message
+          touchdown.addServerReturn({
+            timeStamp: moment()
+              .utc()
+              .unix(),
+            text: "FieldGoal!"
+          });
+        });
       }}
     >
       <Text>{loading ? "Kicking..." : "Field Goal"}</Text>
@@ -77,4 +86,4 @@ const AddFieldGoal = ({ props, image }) => {
   );
 };
 
-export default withImageContext(AddFieldGoal);
+export default withTouchdownContext(withImageContext(AddFieldGoal));

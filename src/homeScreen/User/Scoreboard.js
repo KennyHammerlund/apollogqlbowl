@@ -20,6 +20,16 @@ const Scoreboard = ({ data, ui }) => {
 
   const score =
     actions && actions.length > 0
+      ? actions
+          .filter(item => {
+            console.log(`*--item`, item);
+            return !item.optimistic;
+          })
+          .map(o => o.value)
+          .reduce((acc, item) => acc + item)
+      : 0;
+  const optimisticScore =
+    actions && actions.length > 0
       ? actions.map(o => o.value).reduce((acc, item) => acc + item)
       : 0;
   const optimisticLoading =
@@ -37,19 +47,15 @@ const Scoreboard = ({ data, ui }) => {
         >
           {!ui ? (
             <View style={[styles.scoreBox, styles.serverBox]}>
-              {optimisticLoading ? (
-                <ActivityIndicator color={colors.softWhite} />
-              ) : (
-                <>
-                  <Text style={styles.title}>SERVER</Text>
-                  <Text style={styles.score}>{score}</Text>
-                </>
-              )}
+              <Text style={styles.title}>
+                {optimisticLoading ? "loading..." : "SERVER"}
+              </Text>
+              <Text style={styles.score}>{score}</Text>
             </View>
           ) : (
             <View style={[styles.scoreBox, styles.uiBox]}>
               <Text style={styles.title}>UI</Text>
-              <Text style={styles.score}>{score}</Text>
+              <Text style={styles.score}>{optimisticScore}</Text>
             </View>
           )}
         </View>

@@ -4,11 +4,12 @@ import { useMutation } from "@apollo/react-hooks";
 import moment from "moment";
 import ApolloClient from "../../../apollo/apollo";
 import { withImageContext } from "../../../contexts/imageContext";
+import { withTouchdownContext } from "../../../contexts/touchdownContext";
 
 import MUTATION from "./scoreMutation";
 import GET_VIEWER from "../../../apollo/queries/viewer";
 
-const AddTouchdown = ({ props, image }) => {
+const AddTouchdown = ({ props, image, touchdown }) => {
   const [addTouchdown, { loading }] = useMutation(MUTATION, {
     optimisticResponse: ({ input }) => {
       // mock up the object we expect to return
@@ -67,14 +68,26 @@ const AddTouchdown = ({ props, image }) => {
 
   return (
     <Button
+      disabled={touchdown.ui}
+      style={{ minWidth: 100, justifyContent: "center" }}
       onPress={() => {
         image.changePhoto("touchdown");
-        addTouchdown();
+        // when the mutation returns we can toggle the touchdown on the server
+        addTouchdown().then(() => {
+          touchdown.addServerReturn({
+            timeStamp: moment()
+              .utc()
+              .unix(),
+            text: "Touchdown!"
+          });
+        });
+        // we dont have to wait to toggle the ui we are optimistic!
+        touchdown.toggleUI();
       }}
     >
-      <Text>{loading ? "Running..." : "Touchdown"}</Text>
+      <Text>{touchdown.ui ? ". . ." : "Touchdown"}</Text>
     </Button>
   );
 };
 
-export default withImageContext(AddTouchdown);
+export default withTouchdownContext(withImageContext(AddTouchdown));
