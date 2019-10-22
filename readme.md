@@ -8,7 +8,7 @@ https://www.apollographql.com/docs/react/features/optimistic-ui/
 
 # Optimistic UI: Predicting the future
 
-The purpuse of this project is to demonstrate how optimistic UI works. To get started set your name and delay in the drawer. The delay is the server delay given to the score button mutations. Use the delay to do different things with the UI and Apollo Cache.
+The purpose of this project is to demonstrate how optimistic UI works. To get started set your name and delay in the drawer. The delay is the server delay given to the score button mutations. Use the delay to do different things with the UI and Apollo Cache.
 
 ## Reset Query
 
