@@ -1,6 +1,7 @@
 # APOLLO GQL BOWL
 
 Kenny Hammerlund
+
 Stargazer Web Design and Marketing
 http://web.stargazerllc.com
 
