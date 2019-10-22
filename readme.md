@@ -18,9 +18,7 @@ The purpose of this project is to demonstrate how optimistic UI works. To get st
 
 
 ## Challenges to overcome
-* figure out if there is a way to run multiple optimistic mutations. Currently there one overwrites the other. 
-  * Might solve the problem - https://github.com/helfer/apollo-link-serialize
 * look at offline solutions and how they can implement with optimistic queries. 
   * https://www.npmjs.com/package/apollo-link-offline
   * https://github.com/helfer/apollo-link-queue
-  
+* How do we handle when mutation #2 fails in a chain of (1,2,3) where 3 relied on a response from 2 to be valid?   
