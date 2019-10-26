@@ -14,7 +14,7 @@ The purpose of this project is to demonstrate how optimistic UI works. To get st
 ## Reset Query
 
 * `src/drawer/resetButton.js` - explains the basics of optimistic flow. @apollo/react-hooks
-* `src/homeScreen/User/AddFieldGoal` - mutation that adds a score. @apollo/react-hooks
+* `src/homeScreen/User/AddFieldGoal` - mutation that adds a score. react-apollo HOC
 * `src/homeScreen/User/AddTouchdown` - mutation that adds a score. @apollo/react-hooks
 
 

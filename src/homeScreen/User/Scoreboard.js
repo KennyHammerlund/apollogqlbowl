@@ -22,7 +22,6 @@ const Scoreboard = ({ data, ui }) => {
     actions && actions.length > 0
       ? actions
           .filter(item => {
-            console.log(`*--item`, item);
             return !item.optimistic;
           })
           .map(o => o.value)
